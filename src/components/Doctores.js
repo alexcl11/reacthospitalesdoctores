@@ -49,11 +49,12 @@ export default class Doctores extends Component {
 
   componentDidUpdate = (oldProps) => {
     if (oldProps.idhospital != this.props.idhospital) {
-      this.loadDoctores();
-      this.loadNombreHospital();
       this.setState({
         doctorDetalles: null,
+        hospital: null,
       });
+      this.loadDoctores();
+      this.loadNombreHospital();
     }
   };
 
@@ -63,8 +64,8 @@ export default class Doctores extends Component {
         {this.state.doctorDetalles && (
           <DetallesDoctor doctorDetalles={this.state.doctorDetalles} />
         )}
-        {this.state.doctores.length > 0 ? (
-          <div className="card shadow-sm">
+        <div className="card shadow-sm">
+          {this.state.hospital ? (
             <div className="card-header">
               <h5 className="mb-0">
                 Doctores del{" "}
@@ -73,6 +74,12 @@ export default class Doctores extends Component {
                 </strong>
               </h5>
             </div>
+          ) : (
+            <div className="card-header">
+              <h5 className="mb-0">No existe este Hospital</h5>
+            </div>
+          )}
+          {this.state.doctores.length > 0 && (
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-striped table-hover mb-0">
@@ -110,8 +117,10 @@ export default class Doctores extends Component {
                 </table>
               </div>
             </div>
-          </div>
-        ) : (
+          )}
+        </div>
+
+        {this.state.doctores.length == 0 && (
           <div className="card shadow-sm">
             <div className="card-body text-center text-muted">
               <p className="mb-0">
